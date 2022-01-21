@@ -2,7 +2,7 @@
 
 This is a simple library for managing database on replit.com in PHP's environment
 
-# Usage
+## Usage
 
 - open [Replit Website](https://replit.com) and login to your account
 - create new Repl
@@ -12,7 +12,7 @@ This is a simple library for managing database on replit.com in PHP's environmen
 - open Replit's terminal (shell) and type `echo $REPLIT_DB_URL` to get the database URL
 - copy dan paste the URL to your code
 
-# Sample code
+## Sample code
 
 ```php
 <?php 
@@ -36,3 +36,10 @@ echo PHP_EOL;
 
 echo $db->get_data('name');
 ```
+
+## Methods
+
+- `set_data($key, $value)` for example: `$db->set_data('name', 'dannsbass')`
+- `delete_data($key)` for example: `$db->delete_data('name')` or `$db->delete_data(['name', 'email'])`
+- `get_keys()` to get all data keys, you can pass a prefix as a parameter like this `$db->get_keys('name')` to get all keys that begin with `name` like `name1`, `name2`, `names`, etc.
+- `get_data($key)` to get a specific data, for example: `$db->get_data('email')`
