@@ -11,7 +11,7 @@ $db->set_data('email', 'dannsbass@gmail.com');
 $db->set_data('repo', 'https://github.com/dannsbass');
 $db->set_data('country', 'Indonesia');
 
-$db->delete_data('country');
+$db->delete_data(['country','email','repo']);
 
 echo $db->get_keys();
 

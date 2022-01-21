@@ -57,11 +57,17 @@ final class ReplitDB
         return $this->http_request([$key => $value], 'POST');
     }
     /**
-     * @var string $key
+     * @var string | array $key
      * key of data to be deleted
      */
-    public function delete_data(string $key)
+    public function delete_data($key)
     {
+        if(is_array($key)){
+            foreach ($key as $value) {
+                $this->http_request([], 'DELETE', '/' . $value);
+            }
+            return;
+        }
         return $this->http_request([], 'DELETE', '/' . $key);
     }
     /**
