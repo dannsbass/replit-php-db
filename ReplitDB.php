@@ -46,14 +46,15 @@ final class ReplitDB
      */
     public function http_request(array $content = [], string $method = 'POST', $path = '')
     {
+        if (count($content) > 1) {
+            throw new Exception('content array must contain ONLY one key and one value');
+        }
         $stream = [
             'http' => [
-                'method' => $method
+                'method' => $method,
+                'content' => http_build_query($content)
             ]
         ];
-        if (count($content) === 1) {
-            $stream['http']['content'] = http_build_query($content);
-        }
         if (!empty($path)) {
             $url = self::$URL . $path;
         } else {
