@@ -7,39 +7,24 @@ use Exception;
 final class ReplitDB
 {
     /**
-     * @var string $URL
+     * @var string $REPLIT_DB_URL
      * variable to store $REPLIT_DB_URL
      */
-    public static $URL = '';
-    
+    public static $REPLIT_DB_URL = '';
+
     /**
-     * @var string $file
-     * file to store $REPLIT_DB_URL
+     * @var string $REPLIT_DB_URL
      */
-     public static $file = 'REPLIT_DB_URL';
-    
-     /**
-     * @var string $replit_db_url
-     */
-    public function __construct(string $replit_db_url = '')
+    public function __construct(string $REPLIT_DB_URL = '')
     {
-        if(empty(trim($replit_db_url))){
-            if(!file_exists(self::$file)) {
-                system('touch ' . self::$file . ' && echo $REPLIT_DB_URL > ' . self::$file);
-            }elseif(empty(trim(file_get_contents(self::$file)))){
-                 throw new Exception('$REPLIT_DB_URL doesn\'t exist');
-            }else{
-                self::$URL = file_get_contents(self::$file);
-            }
-        }else{
-            self::$URL = $replit_db_url;
-        }
+        self::$REPLIT_DB_URL = $REPLIT_DB_URL;
     }
     /**
      * 
      */
-    public static function getURL(){
-        return self::$URL;
+    public static function getURL()
+    {
+        return self::$REPLIT_DB_URL;
     }
     /**
      * 
@@ -47,25 +32,27 @@ final class ReplitDB
     public function http_request(array $content = [], string $method = 'POST', $path = '')
     {
         if (count($content) > 1) {
-            throw new Exception('content array must contain ONLY one key and one value');
+            throw new Exception('Content array must contain ONLY one key and one value');
         }
+        
+        if (empty($path)) {
+            $url = self::$REPLIT_DB_URL;
+        } else {
+            $url = self::$REPLIT_DB_URL . $path;
+        }
+        
         $stream = [
             'http' => [
                 'method' => $method,
                 'content' => http_build_query($content)
             ]
         ];
-        if (!empty($path)) {
-            $url = self::$URL . $path;
-        } else {
-            $url = self::$URL;
-        }
         return file_get_contents($url, false, stream_context_create($stream));
     }
     /**
      * 
      */
-    function set_data($key, $value)
+    public function set_data($key, $value)
     {
         return $this->http_request([$key => $value], 'POST');
     }
@@ -83,7 +70,7 @@ final class ReplitDB
      */
     public function get_keys(string $prefix = '')
     {
-        return file_get_contents(self::$URL . '?prefix=' . $prefix) . PHP_EOL;
+        return file_get_contents(self::$REPLIT_DB_URL . '?prefix=' . $prefix) . PHP_EOL;
     }
     /**
      * @var string $key
@@ -91,6 +78,6 @@ final class ReplitDB
      */
     public function get_data(string $key)
     {
-        return file_get_contents(self::$URL . '/' . $key);
+        return file_get_contents(self::$REPLIT_DB_URL . '/' . $key);
     }
 }

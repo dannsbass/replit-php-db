@@ -4,7 +4,7 @@ require __DIR__ .'/ReplitDB.php';
 
 use \Dannsbass\ReplitDB;
 
-$db = new ReplitDB;
+$db = new ReplitDB('REPLIT_DB_URL'); // get from terminal: echo $REPLIT_DB_URL
 
 $db->set_data('name', 'Danns Bass');
 $db->set_data('email', 'dannsbass@gmail.com');
