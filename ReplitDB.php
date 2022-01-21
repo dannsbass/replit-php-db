@@ -44,14 +44,14 @@ final class ReplitDB
     /**
      * 
      */
-    private function http_request(array $content = [], string $method = 'POST', $path = '')
+    public function http_request(array $content = [], string $method = 'POST', $path = '')
     {
         $stream = [
             'http' => [
                 'method' => $method
             ]
         ];
-        if (count($content) > 0) {
+        if (count($content) === 1) {
             $stream['http']['content'] = http_build_query($content);
         }
         if (!empty($path)) {
