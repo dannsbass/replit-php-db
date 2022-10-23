@@ -17,7 +17,11 @@ final class ReplitDB
      */
     public function __construct(string $REPLIT_DB_URL = '')
     {
-        self::$REPLIT_DB_URL = $REPLIT_DB_URL;
+        if(empty($REPLIT_DB_URL)){
+            self::$REPLIT_DB_URL = getenv('REPLIT_DB_URL');
+        }else{
+            self::$REPLIT_DB_URL = $REPLIT_DB_URL;
+        }
     }
     /**
      * 
