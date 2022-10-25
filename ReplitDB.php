@@ -17,9 +17,9 @@ final class ReplitDB
      */
     public function __construct(string $REPLIT_DB_URL = '')
     {
-        if(empty($REPLIT_DB_URL)){
+        if (empty($REPLIT_DB_URL)) {
             self::$REPLIT_DB_URL = getenv('REPLIT_DB_URL');
-        }else{
+        } else {
             self::$REPLIT_DB_URL = $REPLIT_DB_URL;
         }
     }
@@ -38,13 +38,13 @@ final class ReplitDB
         if (count($content) > 1) {
             throw new Exception('Content array must contain ONLY one key and one value');
         }
-        
+
         if (empty($path)) {
             $url = self::$REPLIT_DB_URL;
         } else {
             $url = self::$REPLIT_DB_URL . $path;
         }
-        
+
         $stream = [
             'http' => [
                 'method' => $method,
@@ -56,7 +56,7 @@ final class ReplitDB
     /**
      * 
      */
-    public function set_data($key, $value)
+    public function set_data(string $key, string $value)
     {
         return $this->http_request([$key => $value], 'POST');
     }
@@ -66,7 +66,7 @@ final class ReplitDB
      */
     public function delete_data($key)
     {
-        if(is_array($key)){
+        if (is_array($key)) {
             foreach ($key as $value) {
                 $this->http_request([], 'DELETE', '/' . $value);
             }
@@ -89,5 +89,30 @@ final class ReplitDB
     public function get_data(string $key)
     {
         return file_get_contents(self::$REPLIT_DB_URL . '/' . $key);
+    }
+
+    public function get(string $key)
+    {
+        return $this->get_data($key);
+    }
+
+    public function put(string $key, string $value)
+    {
+        return $this->set_data($key, $value);
+    }
+
+    public function set(string $key, string $value)
+    {
+        return $this->set_data($key, $value);
+    }
+
+    public function del($key)
+    {
+        return $this->delete_data($key);
+    }
+
+    public function keys($prefix = '')
+    {
+        return $this->get_keys($prefix);
     }
 }
