@@ -33,7 +33,7 @@ final class ReplitDB
     /**
      * 
      */
-    public function http_request(array $content = [], string $method = 'POST', $path = '')
+    public static function http_request(array $content = [], string $method = 'POST', $path = '')
     {
         if (count($content) > 1) {
             throw new Exception('Content array must contain ONLY one key and one value');
@@ -56,29 +56,29 @@ final class ReplitDB
     /**
      * 
      */
-    public function set_data(string $key, string $value)
+    public static function set_data(string $key, string $value)
     {
-        return $this->http_request([$key => $value], 'POST');
+        return self::http_request([$key => $value], 'POST');
     }
     /**
      * @var string | array $key
      * key of data to be deleted
      */
-    public function delete_data($key)
+    public static function delete_data($key)
     {
         if (is_array($key)) {
             foreach ($key as $value) {
-                $this->http_request([], 'DELETE', '/' . $value);
+                self::http_request([], 'DELETE', '/' . $value);
             }
             return;
         }
-        return $this->http_request([], 'DELETE', '/' . $key);
+        return self::http_request([], 'DELETE', '/' . $key);
     }
     /**
      * @var string $prefix
      * prefix of data key
      */
-    public function get_keys(string $prefix = '')
+    public static function get_keys(string $prefix = '')
     {
         return file_get_contents(self::$REPLIT_DB_URL . '?prefix=' . $prefix) . PHP_EOL;
     }
@@ -86,33 +86,33 @@ final class ReplitDB
      * @var string $key
      * data key
      */
-    public function get_data(string $key)
+    public static function get_data(string $key)
     {
         return file_get_contents(self::$REPLIT_DB_URL . '/' . $key);
     }
 
-    public function get(string $key)
+    public static function get(string $key)
     {
-        return $this->get_data($key);
+        return self::get_data($key);
     }
 
-    public function put(string $key, string $value)
+    public static function put(string $key, string $value)
     {
-        return $this->set_data($key, $value);
+        return self::set_data($key, $value);
     }
 
-    public function set(string $key, string $value)
+    public static function set(string $key, string $value)
     {
-        return $this->set_data($key, $value);
+        return self::set_data($key, $value);
     }
 
-    public function del($key)
+    public static function del($key)
     {
-        return $this->delete_data($key);
+        return self::delete_data($key);
     }
 
-    public function keys($prefix = '')
+    public static function keys($prefix = '')
     {
-        return $this->get_keys($prefix);
+        return self::get_keys($prefix);
     }
 }
