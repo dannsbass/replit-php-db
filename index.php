@@ -2,20 +2,17 @@
 
 require __DIR__ .'/ReplitDB.php';
 
-use \Dannsbass\ReplitDB;
+use \Dannsbass\ReplitDB as Db;
 
-$db = new ReplitDB();
+Db::set_data('name', 'Danns Bass');
+Db::set_data('email', 'dannsbass@gmail.com');
+Db::set_data('repo', 'https://github.com/dannsbass');
+Db::set_data('country', 'Indonesia');
 
-$db->set_data('name', 'Danns Bass');
-$db->set_data('email', 'dannsbass@gmail.com');
-$db->set_data('repo', 'https://github.com/dannsbass');
-$db->set_data('country', 'Indonesia');
+Db::delete_data('country');
 
-$db->delete_data(['country','email','repo']);
-
-echo $db->get_keys();
+echo Db::get_keys();
 
 echo PHP_EOL;
 
-echo $db->get_data('name');
-
+echo Db::get_data('name');

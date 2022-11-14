@@ -25,8 +25,6 @@ require __DIR__ .'/ReplitDB.php';
 
 use \Dannsbass\ReplitDB as Db;
 
-$db = new Db;
-
 Db::set_data('name', 'Danns Bass');
 Db::set_data('email', 'dannsbass@gmail.com');
 Db::set_data('repo', 'https://github.com/dannsbass');
